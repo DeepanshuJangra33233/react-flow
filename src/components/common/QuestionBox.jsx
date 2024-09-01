@@ -13,7 +13,7 @@ const generateRandomId = () => {
   return result;
 };
 
-const QuestionBox = ({ isConnectable }) => {
+const QuestionBox = ({ isConnectable, id, removeNode }) => {
   const [isBoxHidden, setIsBoxHidden] = useState(false);
 
   // Generate unique IDs for handles
@@ -43,7 +43,8 @@ const QuestionBox = ({ isConnectable }) => {
         >
           <MenuIcon />
           <span
-            className={`bg-white absolute top-9 right-0 p-3 rounded-md shadow-lg ${
+            onClick={() => removeNode(id)}
+            className={`bg-white absolute top-9 right-0 p-3 rounded-md shadow-lg z-20 ${
               isBoxHidden ? "" : "hidden"
             }`}
           >
@@ -82,6 +83,8 @@ const QuestionBox = ({ isConnectable }) => {
 
 QuestionBox.propTypes = {
   isConnectable: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
+  removeNode: PropTypes.func.isRequired,
 };
 
 export default QuestionBox;

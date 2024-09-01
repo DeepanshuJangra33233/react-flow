@@ -9,23 +9,29 @@ const getRandomPosition = () => {
   return { x, y };
 };
 
-const SideBar = ({ addNode }) => {
+const SideBar = ({ addNode, deleteNode }) => {
   const addSendMessageHandler = () => {
+    const newNodeId = `${Math.random()}`; // Generate ID first
     const newNode = {
-      id: `${Math.random()}`,
+      id: newNodeId,
       type: "custom",
       position: getRandomPosition(),
-      data: { component: <MessageBox /> },
+      data: {
+        component: <MessageBox id={newNodeId} removeNode={deleteNode} />,
+      },
     };
     addNode(newNode);
   };
 
   const addQuestionHandler = () => {
+    const newNodeId = `${Math.random()}`; // Generate ID first
     const newNode = {
-      id: `${Math.random()}`,
+      id: newNodeId,
       type: "custom",
       position: getRandomPosition(),
-      data: { component: <QuestionBox /> },
+      data: {
+        component: <QuestionBox id={newNodeId} removeNode={deleteNode} />,
+      },
     };
     addNode(newNode);
   };
@@ -66,6 +72,7 @@ const SideBar = ({ addNode }) => {
 
 SideBar.propTypes = {
   addNode: PropTypes.func.isRequired,
+  deleteNode: PropTypes.func.isRequired,
 };
 
 export default SideBar;

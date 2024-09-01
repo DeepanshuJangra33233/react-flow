@@ -13,7 +13,7 @@ const generateRandomId = () => {
   return result;
 };
 
-const MessageBox = ({ isConnectable }) => {
+const MessageBox = ({ isConnectable, id, removeNode }) => {
   const [isBoxHidden, setIsBoxHidden] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
@@ -48,7 +48,8 @@ const MessageBox = ({ isConnectable }) => {
         >
           <MenuIcon />
           <span
-            className={`bg-white absolute top-9 right-0 p-3 rounded-md shadow-lg ${
+            onClick={() => removeNode(id)}
+            className={`bg-white absolute top-9 right-0 p-3 rounded-md shadow-lg z-20 ${
               isBoxHidden ? "" : "hidden"
             }`}
           >
@@ -80,6 +81,8 @@ const MessageBox = ({ isConnectable }) => {
 
 MessageBox.propTypes = {
   isConnectable: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
+  removeNode: PropTypes.func.isRequired,
 };
 
 export default MessageBox;
