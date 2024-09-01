@@ -1,14 +1,15 @@
+import React from "react";
 import PropTypes from "prop-types";
 
-const CustomNode = ({ data }) => {
-  return <div>{data.component}</div>;
+const CustomNode = ({ data, isConnectable }) => {
+  return React.cloneElement(data.component, { isConnectable });
 };
 
-// Prop validation
 CustomNode.propTypes = {
   data: PropTypes.shape({
-    component: PropTypes.element.isRequired, // Ensures `component` is a React element and is required
+    component: PropTypes.element.isRequired,
   }).isRequired,
+  isConnectable: PropTypes.bool.isRequired,
 };
 
 export default CustomNode;

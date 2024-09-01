@@ -8,13 +8,13 @@ import ReactFlow, {
   applyNodeChanges,
 } from "react-flow-renderer";
 import SideBar from "./SideBar";
-import CustomNode from "./CustomNode"; // Import your custom node
+import CustomNode from "./CustomNode";
+import CustomEdge from "./CustomEdge"; // Import your custom edge component
 
 const initialNodes = [];
 const initialEdges = [];
 
 const Flow = () => {
-  const nodeTypes = useMemo(() => ({ custom: CustomNode }), []);
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
 
@@ -26,26 +26,46 @@ const Flow = () => {
     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     []
   );
-  const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
-    []
-  );
+
+  const onConnect = useCallback((params) => {
+    console.log("Connected nodes:", params);
+    setEdges((eds) => {
+      // Allow multiple edges between nodes
+      return addEdge(params, eds);
+    });
+  }, []);
 
   const addNode = useCallback((newNode) => {
     setNodes((nds) => [...nds, newNode]);
   }, []);
+
+  const nodeTypes = useMemo(
+    () => ({
+      custom: CustomNode,
+    }),
+    []
+  );
+
+  const edgeTypes = useMemo(
+    () => ({
+      custom: CustomEdge,
+    }),
+    []
+  );
 
   return (
     <div className="h-screen w-full flex">
       <SideBar addNode={addNode} />
       <ReactFlow
         nodes={nodes}
-        onNodesChange={onNodesChange}
         edges={edges}
+        onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         fitView
-        nodeTypes={nodeTypes} // Pass the memoized nodeTypes here
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        // connectionLineType="smoothstep"
         style={{ width: "100%", height: "100vh" }}
       >
         <MiniMap />

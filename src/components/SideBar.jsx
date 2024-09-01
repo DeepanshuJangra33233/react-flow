@@ -13,9 +13,9 @@ const SideBar = ({ addNode }) => {
   const addSendMessageHandler = () => {
     const newNode = {
       id: `${Math.random()}`,
-      type: "custom", // Specify the custom node type
+      type: "custom",
       position: getRandomPosition(),
-      data: { component: <MessageBox /> }, // Pass the MessageBox component
+      data: { component: <MessageBox /> },
     };
     addNode(newNode);
   };
@@ -25,7 +25,7 @@ const SideBar = ({ addNode }) => {
       id: `${Math.random()}`,
       type: "custom",
       position: getRandomPosition(),
-      data: { component: <QuestionBox /> }, // Pass the QuestionBox component
+      data: { component: <QuestionBox /> },
     };
     addNode(newNode);
   };

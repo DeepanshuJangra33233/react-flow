@@ -1,20 +1,43 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import PropTypes from "prop-types";
+import { Handle, Position } from "react-flow-renderer";
 import { MenuIcon, MessageIcon } from "../Icon";
 
-const MessageBox = () => {
+const generateRandomId = () => {
+  const length = Math.floor(Math.random() * 4) + 1;
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+};
+
+const MessageBox = ({ isConnectable }) => {
   const [isBoxHidden, setIsBoxHidden] = useState(false);
   const [inputValue, setInputValue] = useState("");
+
+  const targetHandleId = useMemo(() => generateRandomId(), []);
+
   const deleteBoxHandler = () => {
     setIsBoxHidden(!isBoxHidden);
-    console.log("delete");
   };
+
   const submitHandler = (e) => {
     e.preventDefault();
     console.log(inputValue);
-    setInputValue(" ");
+    setInputValue("");
   };
+
   return (
     <div className="max-w-[300px] w-full h-[150px] rounded-lg overflow-hidden bg-white shadow-lg">
+      {/* Only bottom handle */}
+      <Handle
+        type="target"
+        position={Position.Bottom}
+        id={targetHandleId}
+        isConnectable={isConnectable}
+      />
       <div className="bg-red-400 py-2 px-3 flex items-center justify-between">
         <div className="bg-[#ffffff66] rounded-full h-[40px] w-[40px] flex items-center justify-center p-2">
           <MessageIcon />
@@ -34,7 +57,7 @@ const MessageBox = () => {
         </div>
       </div>
       <form
-        onSubmit={(e) => submitHandler(e)}
+        onSubmit={submitHandler}
         className="flex items-center gap-3 p-3 h-[calc(100%-56px)]"
       >
         <input
@@ -53,6 +76,10 @@ const MessageBox = () => {
       </form>
     </div>
   );
+};
+
+MessageBox.propTypes = {
+  isConnectable: PropTypes.bool.isRequired,
 };
 
 export default MessageBox;
