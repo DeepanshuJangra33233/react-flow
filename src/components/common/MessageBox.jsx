@@ -13,7 +13,7 @@ const generateRandomId = () => {
   return result;
 };
 
-const MessageBox = ({ isConnectable, id, removeNode }) => {
+const MessageBox = ({ isConnectable, id, removeNode, handleData }) => {
   const [isBoxHidden, setIsBoxHidden] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
@@ -25,8 +25,8 @@ const MessageBox = ({ isConnectable, id, removeNode }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    handleData(id, { message: inputValue });
     console.log(inputValue);
-    setInputValue("");
   };
 
   return (
@@ -83,6 +83,7 @@ MessageBox.propTypes = {
   isConnectable: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
   removeNode: PropTypes.func.isRequired,
+  handleData: PropTypes.func.isRequired,
 };
 
 export default MessageBox;

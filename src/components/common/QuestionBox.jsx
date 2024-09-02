@@ -13,7 +13,7 @@ const generateRandomId = () => {
   return result;
 };
 
-const QuestionBox = ({ isConnectable, id, removeNode }) => {
+const QuestionBox = ({ isConnectable, id, removeNode, handleData }) => {
   const [isBoxHidden, setIsBoxHidden] = useState(false);
 
   // Generate unique IDs for handles
@@ -55,6 +55,7 @@ const QuestionBox = ({ isConnectable, id, removeNode }) => {
       <div className="flex items-center gap-3 p-3 h-[calc(100%-56px)] flex-col">
         <div className="relative w-full">
           <button
+            onClick={() => handleData(id, { title: "Yes" })}
             className="text-white w-full bg-red-500 hover:bg-red-400 duration-300 px-3 py-2 rounded-md text-sm"
             type="submit"
           >
@@ -63,6 +64,7 @@ const QuestionBox = ({ isConnectable, id, removeNode }) => {
         </div>
         <div className="relative w-full">
           <button
+            onClick={() => handleData(id, { title: "No" })}
             className="text-white w-full bg-red-500 hover:bg-red-400 duration-300 px-3 py-2 rounded-md text-sm"
             type="submit"
           >
@@ -85,6 +87,7 @@ QuestionBox.propTypes = {
   isConnectable: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
   removeNode: PropTypes.func.isRequired,
+  handleData: PropTypes.func.isRequired,
 };
 
 export default QuestionBox;
